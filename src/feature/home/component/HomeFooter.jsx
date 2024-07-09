@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useContext } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import MemberContext from '../../../app/auth/MemberContext';
 
 import { Row, Gap } from "../../../common/util/LayoutExport"
@@ -13,13 +12,25 @@ function HomeFooter() {
     const memberContext = useContext(MemberContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleLoginClick = () => {
+    const showAuthModal = () => {
         setIsModalOpen(true);
     };
 
-    const handleOutsideClick = () => {
-        setIsModalOpen(false);
-    };
+    useEffect(() => {
+        const clickOutside = (e) => {
+            if (isModalOpen && node.current && !node.current.contains(e.target)) {
+                setIsModalOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", clickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", clickOutside);
+        };
+    }, [isModalOpen]);
+
+    const node = useRef();
 
 
     return (
@@ -35,7 +46,7 @@ function HomeFooter() {
             </a>
             <Gap value={20} direction={"row"}
             />
-            <Text onClick={handleLoginClick} cursor={"pointer"} hoverColor={"#000"}>
+            <Text onClick={showAuthModal} cursor={"pointer"} hoverColor={"#000"} ref={node}>
                 {memberContext ? "로그아웃" : "로그인"}
             </Text>
             <AuthModal isOpen={isModalOpen} />
