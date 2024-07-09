@@ -18,7 +18,7 @@ function HomeFooter() {
 
     useEffect(() => {
         const clickOutside = (e) => {
-            if (isModalOpen && node.current && !node.current.contains(e.target)) {
+            if (isModalOpen && !node1.current.contains(e.target) && !node2.current.contains(e.target)) {
                 setIsModalOpen(false);
             }
         };
@@ -30,7 +30,8 @@ function HomeFooter() {
         };
     }, [isModalOpen]);
 
-    const node = useRef();
+    const node1 = useRef();
+    const node2 = useRef();
 
 
     return (
@@ -46,10 +47,12 @@ function HomeFooter() {
             </a>
             <Gap value={20} direction={"row"}
             />
-            <Text onClick={showAuthModal} cursor={"pointer"} hoverColor={"#000"} ref={node}>
+            <Text onClick={showAuthModal} cursor={"pointer"} hoverColor={"#000"} ref={node1}>
                 {memberContext ? "로그아웃" : "로그인"}
             </Text>
-            <AuthModal isOpen={isModalOpen} />
+            <div ref={node2}>
+                <AuthModal isOpen={isModalOpen} />
+            </div>
         </Row>
     );
 }
