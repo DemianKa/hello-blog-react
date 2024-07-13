@@ -6,19 +6,14 @@ import { Row, Gap } from "../../../common/util/LayoutExport"
 import Text from "../../../common/component/Text"
 import AuthModal from "../../../app/auth/AuthModal"
 
-
 function HomeFooter() {
 
-    const memberContext = useContext(MemberContext);
+    const { member, setMember } = useContext(MemberContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const showAuthModal = () => {
-        setIsModalOpen(true);
-    };
 
     useEffect(() => {
         const clickOutside = (e) => {
-            if (isModalOpen && !node1.current.contains(e.target) && !node2.current.contains(e.target)) {
+            if (isModalOpen && !whiteRef1.current.contains(e.target) && !whiteRef2.current.contains(e.target)) {
                 setIsModalOpen(false);
             }
         };
@@ -30,9 +25,17 @@ function HomeFooter() {
         };
     }, [isModalOpen]);
 
-    const node1 = useRef();
-    const node2 = useRef();
+    const signIn = () => {
+        setIsModalOpen(true);
+    };
 
+    function signOut() {
+        setMember(null);
+    }
+
+
+    const whiteRef1 = useRef();
+    const whiteRef2 = useRef();
 
     return (
         <Row main={"center"} cross={"center"}>
@@ -47,11 +50,11 @@ function HomeFooter() {
             </a>
             <Gap value={20} direction={"row"}
             />
-            <Text onClick={showAuthModal} cursor={"pointer"} hoverColor={"#000"} ref={node1}>
-                {memberContext ? "로그아웃" : "로그인"}
+            <Text onClick={member ? signOut : signIn} cursor={"pointer"} hoverColor={"#000"} ref={whiteRef1}>
+                {member ? "로그아웃" : "로그인"}
             </Text>
-            <div ref={node2}>
-                <AuthModal isOpen={isModalOpen} />
+            <div ref={whiteRef2}>
+                <AuthModal isOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             </div>
         </Row>
     );
