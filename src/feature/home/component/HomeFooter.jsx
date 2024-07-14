@@ -54,7 +54,7 @@ function HomeFooter() {
                 {member ? "로그아웃" : "로그인"}
             </Text>
             <div ref={whiteRef2}>
-                <AuthModal isOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+                <AuthModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             </div>
         </Row>
     );

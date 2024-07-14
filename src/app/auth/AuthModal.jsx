@@ -101,7 +101,7 @@ function AuthModal(props) {
         }
     }
 
-    if (!props.isOpen) return null;
+    if (!props.isModalOpen) return null;
 
     return (
         <Container position={"fixed"} index={"1000"} top={"20"} right={"50"} borderRadius={"10"} color={"#22191b"}>
